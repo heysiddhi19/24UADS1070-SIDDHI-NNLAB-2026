@@ -1,0 +1,139 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# -----------------------------------
+# Step Activation
+# -----------------------------------
+def activate(x):
+    return 1 if x >= 0 else 0
+
+
+# -----------------------------------
+# Accuracy Calculation
+# -----------------------------------
+def get_accuracy(X, y, w, b):
+
+    correct = 0
+    for i in range(len(X)):
+        pred = activate(np.dot(X[i], w) + b)
+        if pred == y[i]:
+            correct += 1
+
+    return correct / len(X)
+
+
+# -----------------------------------
+# Perceptron Training
+# -----------------------------------
+def train_model(X, y, lr=0.2, epochs=15):
+
+    w = np.zeros(2)
+    b = 0
+
+    training_error_curve = []
+    accuracy_curve = []
+
+    for ep in range(epochs):
+
+        total_error = 0
+
+        for i in range(len(X)):
+
+            net = np.dot(X[i], w) + b
+            pred = activate(net)
+
+            diff = y[i] - pred
+
+            w = w + lr * diff * X[i]
+            b = b + lr * diff
+
+            total_error += abs(diff)
+
+        training_error_curve.append(total_error)
+
+        acc = get_accuracy(X, y, w, b)
+        accuracy_curve.append(acc)
+
+    return w, b, training_error_curve, accuracy_curve
+
+
+# -----------------------------------
+# Plot Training Error Curve
+# -----------------------------------
+def plot_training_error(error_values, title):
+
+    plt.figure()
+    plt.plot(error_values, marker='o')
+    plt.ylabel("Training Error")
+    plt.title(title + " Training Error Curve")
+    plt.show()
+
+
+# -----------------------------------
+# Plot Accuracy vs Epoch
+# -----------------------------------
+def plot_accuracy(acc_values, title):
+
+    plt.figure()
+    plt.plot(acc_values, marker='o')
+    plt.xlabel("Epoch")
+    plt.ylabel("Accuracy")
+    plt.title(title + " Accuracy vs Epoch")
+    plt.show()
+
+
+# -----------------------------------
+# Plot Final Decision Boundary
+# -----------------------------------
+def plot_decision(X, y, w, b, title):
+
+    plt.figure()
+
+    for i in range(len(X)):
+        if y[i] == 1:
+            plt.scatter(X[i][0], X[i][1])
+        else:
+            plt.scatter(X[i][0], X[i][1], marker='x')
+
+    x_vals = np.linspace(-1,2,50)
+
+    if w[1] != 0:
+        y_vals = -(w[0]*x_vals + b)/w[1]
+        plt.plot(x_vals, y_vals)
+
+    plt.title(title + " Final Decision Boundary")
+    plt.show()
+
+
+# -----------------------------------
+# DATA
+# -----------------------------------
+X = np.array([
+    [0,0],
+    [0,1],
+    [1,0],
+    [1,1]
+])
+
+nand = np.array([1,1,1,0])
+xor  = np.array([0,1,1,0])
+
+
+# -----------------------------------
+# NAND TRAINING
+# -----------------------------------
+w1,b1,err1,acc1 = train_model(X,nand)
+
+plot_training_error(err1,"NAND")
+plot_accuracy(acc1,"NAND")
+plot_decision(X,nand,w1,b1,"NAND")
+
+
+# -----------------------------------
+# XOR TRAINING
+# -----------------------------------
+w2,b2,err2,acc2 = train_model(X,xor)
+
+plot_training_error(err2,"XOR")
+plot_accuracy(acc2,"XOR")
+plot_decision(X,xor,w2,b2,"XOR")

@@ -1,0 +1,13 @@
+Write a Python program to understand and visualize how the Perceptron Learning Algorithm works.
+Use NumPy and Matplotlib for implementation and plotting.
+
+Train a single perceptron model using NAND and XOR gate truth tables as input datasets.
+While training the model, calculate the total training error and also measure the accuracy
+after each epoch.
+
+After the training is completed, generate the following visual outputs:
+1. Training error curve showing how the model learns during training.
+2. Accuracy vs epoch graph.
+3. Final decision boundary plot for both NAND and XOR datasets.
+
+language and libraries used: Python, NumPy and Matplotlib only.
