@@ -1,0 +1,8 @@
+I want a simple Python experiment to understand how a Neural Network learns the XOR problem using Backpropagation.
+
+Please make a small 2-2-1 architecture using NumPy and plot graphs using Matplotlib.
+The program should train for multiple epochs and print a proper table showing Epoch number, Loss value, Accuracy (%) and one sample W2 weight during training so I can observe learning.
+
+Also include graphs for Training Loss vs Epoch, Accuracy vs Epoch and show the Final Decision Boundary visually.
+
+Keep the code easy to understand, clean, and suitable for a college lab submission with proper outputs and plots.
