@@ -1,0 +1,5 @@
+WAP to implement a three-layer neural network using Tensor flow  library (only, no keras) to classify MNIST handwritten digits dataset. Demonstrate  the implementation of feed-forward and back-propagation approaches. 
+
+Implementation of Backpropagation Neural Network (BPNN) using TensorFlow.
+
+Explain the theoretical background of BPNN along with practical examples. Provide the full program code including detailed training outputs for each epoch. Include relevant plots/graphs to better understand model performance and learning behavior. Conclude with a short description explaining the logic of the algorithm and the flow of the program.

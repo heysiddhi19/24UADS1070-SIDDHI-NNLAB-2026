@@ -1,0 +1,12 @@
+Epoch 0: Loss = 0.89, Accuracy = 0.81
+Epoch 5: Loss = 0.41, Accuracy = 0.90
+Epoch 10: Loss = 0.35, Accuracy = 0.92
+Epoch 15: Loss = 0.31, Accuracy = 0.93
+Epoch 20: Loss = 0.29, Accuracy = 0.94
+Epoch 25: Loss = 0.27, Accuracy = 0.94
+Epoch 30: Loss = 0.26, Accuracy = 0.95
+Epoch 35: Loss = 0.25, Accuracy = 0.95
+Epoch 40: Loss = 0.24, Accuracy = 0.95
+Epoch 45: Loss = 0.23, Accuracy = 0.95
+
+Final Test Accuracy: 0.9563

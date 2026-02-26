@@ -1,0 +1,106 @@
+import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+
+# ---------------- Load MNIST Dataset ---------------- #
+(x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
+
+# ---------------- Preprocessing ---------------- #
+x_train = x_train.reshape(-1, 784).astype(np.float32) / 255.0
+x_test = x_test.reshape(-1, 784).astype(np.float32) / 255.0
+
+y_train = tf.one_hot(y_train, 10)
+y_test = tf.one_hot(y_test, 10)
+
+# ---------------- Hyperparameters ---------------- #
+learning_rate = 0.01
+epochs = 50
+batch_size = 128
+
+# ---------------- Initialize Weights ---------------- #
+W1 = tf.Variable(tf.random.normal([784, 128], stddev=0.1))
+b1 = tf.Variable(tf.zeros([128]))
+
+W2 = tf.Variable(tf.random.normal([128, 10], stddev=0.1))
+b2 = tf.Variable(tf.zeros([10]))
+
+optimizer = tf.optimizers.SGD(learning_rate)
+
+train_loss_list = []
+train_acc_list = []
+
+# ---------------- Training Loop ---------------- #
+for epoch in range(epochs):
+
+    for i in range(0, x_train.shape[0], batch_size):
+
+        x_batch = x_train[i:i+batch_size]
+        y_batch = y_train[i:i+batch_size]
+
+        with tf.GradientTape() as tape:
+
+            # ---- Feed Forward ---- #
+            z1 = tf.matmul(x_batch, W1) + b1
+            a1 = tf.nn.relu(z1)
+
+            z2 = tf.matmul(a1, W2) + b2
+
+            loss = tf.reduce_mean(
+                tf.nn.softmax_cross_entropy_with_logits(
+                    labels=y_batch,
+                    logits=z2
+                )
+            )
+
+        # ---- Backpropagation ---- #
+        gradients = tape.gradient(loss, [W1, b1, W2, b2])
+        optimizer.apply_gradients(zip(gradients, [W1, b1, W2, b2]))
+
+    # ---- Accuracy Calculation on Training Data ---- #
+    z1_full = tf.matmul(x_train, W1) + b1
+    a1_full = tf.nn.relu(z1_full)
+    z2_full = tf.matmul(a1_full, W2) + b2
+    y_pred_full = tf.nn.softmax(z2_full)
+
+    correct = tf.equal(tf.argmax(y_pred_full, 1),
+                       tf.argmax(y_train, 1))
+
+    accuracy = tf.reduce_mean(tf.cast(correct, tf.float32))
+
+    train_loss_list.append(loss.numpy())
+    train_acc_list.append(accuracy.numpy())
+
+    # Print every 5 epochs → 0,5,10,...45
+    if epoch % 5 == 0:
+        print(f"Epoch {epoch}: Loss = {loss.numpy():.4f}, Accuracy = {accuracy.numpy():.4f}")
+
+# ---------------- Final Test Accuracy ---------------- #
+z1_test = tf.matmul(x_test, W1) + b1
+a1_test = tf.nn.relu(z1_test)
+z2_test = tf.matmul(a1_test, W2) + b2
+y_pred_test = tf.nn.softmax(z2_test)
+
+correct_test = tf.equal(tf.argmax(y_pred_test, 1),
+                        tf.argmax(y_test, 1))
+
+test_accuracy = tf.reduce_mean(tf.cast(correct_test, tf.float32))
+
+print("\nFinal Test Accuracy:", test_accuracy.numpy())
+
+# ---------------- Graphs ---------------- #
+
+# Loss vs Epochs
+plt.figure()
+plt.plot(train_loss_list)
+plt.title("Loss vs Epochs")
+plt.xlabel("Epochs")
+plt.ylabel("Loss")
+plt.show()
+
+# Accuracy vs Epochs
+plt.figure()
+plt.plot(train_acc_list)
+plt.title("Accuracy vs Epochs")
+plt.xlabel("Epochs")
+plt.ylabel("Accuracy")
+plt.show()
