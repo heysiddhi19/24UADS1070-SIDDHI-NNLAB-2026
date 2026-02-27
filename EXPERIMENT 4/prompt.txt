@@ -1,0 +1,5 @@
+WAP to evaluate the performance of implemented three-layer neural network with variations in activation functions, size of hidden layer, learning rate, batch size and number of epochs.
+
+Implementation of Backpropagation Neural Network (BPNN) using TensorFlow.
+
+Explain the theoretical background of BPNN along with practical examples. Provide the full program code including detailed training outputs for each epoch. Include relevant plots/graphs to better understand model performance and learning behavior. Conclude with a short description explaining the logic of the algorithm and the flow of the program.
